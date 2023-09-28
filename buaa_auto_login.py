@@ -27,13 +27,13 @@ username = 'by2106000'
 password = 'xxxxxxxxx'
 
 #是否开启断网重连时自动关闭clash的全局代理功能。如【电脑中没有安装clash，或clash没有运行，务必将该项设置为False】。该项默认为False，如有需要请手动更改为True
-if_close_clash_proxy=True
+if_close_clash_proxy=False
 #你的clash软件的API port和secret.这里没有用[secret][port]等代替是为了方便使用者确定自己复制的是与下面的内容格式相似的信息。
 clash_secret='3do0d5ca-2dea-47dc-ae80-344597dubdca'
 clash_port='1349'
 #该功能仅在windows 11下进行测试，目测win10也可用。
 #默认情况下secret信息与port信息在 C:\Users\[YOUR_USERNAME]\.config\clash\config.yaml中，可自行复制，当然也可自行修改。
-#使用该功能请务必将clash的Random Controller Port关闭，否则会出现端口冲突，导致无法正常使用。该选项位于clash的设置->general->Random Controller Port
+#使用该功能请务必将clash的Random Controller Port关闭。该选项位于clash的设置->general->Random Controller Port
 
 
 
