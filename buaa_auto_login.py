@@ -39,7 +39,7 @@ clash_port='1349'
 
 #在我的测试环境里同一个网站ping多了会请求超时，但网站还是能访问，因此这里采用随机ping一个网站的方式来试图缓解这种情况。但其实我并没有搞清楚是否是网站本身对ping的请求做了限制，欢迎对该部分的处理提出意见。
 ping_list=['www.baidu.com','www.163.com','www.taobao.com','www.jd.com','weibo.com']
-ping_index=0
+
 #当然，最优雅的方式还是直接从网关里面获取是否成功连接的信息。不过网关获取信息也并非一劳永逸，因为开启全局代理时，无法从网关直接获取信息。
 
 #如果采用直接从网关里获取是否成功连接的信息，则ping_list与下面两个变量都可以省掉。目前的处理方式确实不够优雅。主要是中秋将近，不想写了，之后有空再改。
@@ -56,18 +56,18 @@ reconnect_threshold=ping_list.__len__()
 urllib3.disable_warnings()
 
 def check_internet():
-    ping_site=ping_list[ping_index]
-    ping_index=(ping_index+1)%len(ping_list)
-    # 尝试ping一个常用的网站，如baidu.com
-    ping_cmd = "ping %s" % ping_site
-    result = os.system(ping_cmd)
-    print(result)
-    # 如果返回值为0，说明ping成功，返回True
-    if result == 0:
-        return True
+    ping_index=0
+    for ping_index in range(ping_list.__len__()):
+        ping_site=ping_list[ping_index]
+        # 尝试ping一个常用的网站，如baidu.com
+        ping_cmd = "ping %s" % ping_site
+        result = os.system(ping_cmd)
+        print(result)
+            # 如果返回值为0，说明ping成功，返回True
+        if result == 0:
+            return True
     # 如果返回值不为0，说明ping失败，返回False
-    else:
-        return False
+    return False
 
 
 def get_jsonp(url, params):
@@ -284,12 +284,10 @@ if __name__ == "__main__":
                 time.sleep(time_interval)
             else:
                 #raise an exception
-                fail_count=fail_count+1
-                if fail_count>reconnect_threshold:
-                    fail_count=0
-                    raise Exception('Network is disconnected')
-                else:
-                    continue
+                print('Network is disconnected')
+                fail_count=0
+                raise Exception('Network is disconnected')
+
             
         except:
                 try:
